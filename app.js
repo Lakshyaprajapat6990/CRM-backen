@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const { initializeDatabase } = require('./config/initBehaviorDB');
 const cors = require("cors");
@@ -85,7 +86,7 @@ let dbPromise = null;
 let dbInitialized = false;
 
 async function initDB() {
-  if (dbInitialized) return;
+  if (dbInitialized) return true;
   
   if (!dbPromise) {
     dbPromise = (async () => {
@@ -94,10 +95,12 @@ async function initDB() {
         await initializeDatabase();
         dbInitialized = true;
         console.log("✅ Database initialized successfully");
+        return true;
       } catch (error) {
         console.error("❌ Database initialization error:", error.message);
         dbInitialized = false;
         dbPromise = null;
+        return false;
       }
     })();
   }

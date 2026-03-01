@@ -14,6 +14,12 @@ const CRMContact = require('../models/CRMContact');
  */
 async function initializeDatabase() {
   try {
+    // Check if mongoose is connected before trying to initialize
+    if (mongoose.connection.readyState !== 1) {
+      console.log('⚠️ Database not connected, skipping initialization');
+      return false;
+    }
+    
     console.log('🔄 Initializing database collections...');
     
     // Ensure all models are registered (this creates collections)
