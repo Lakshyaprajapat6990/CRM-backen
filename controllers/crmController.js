@@ -32,6 +32,37 @@ async function createContact(req, res) {
   }
 }
 
+// Public endpoint for booking confirmations - no auth required
+async function createPublicContact(req, res) {
+  try {
+    const { name, phone, status, source, interestedService, notes } = req.body;
+    
+    // Validate required fields
+    if (!name || !phone) {
+      return res.status(400).json({ error: "Name and phone are required" });
+    }
+    
+    // Create contact with default "interested" status if not provided
+    const contactData = {
+      name,
+      phone,
+      status: status || "interested",
+      source: source || "website",
+      interestedIn: interestedService || "",
+      notes: notes || "",
+    };
+    
+    const contact = await crmService.createContact(contactData);
+    res.status(201).json({ 
+      success: true, 
+      message: "Contact created successfully",
+      contact 
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
 async function updateContact(req, res) {
   try {
     const contact = await crmService.updateContact(req.params.id, req.body);
@@ -164,6 +195,7 @@ module.exports = {
   getContacts,
   getContact,
   createContact,
+  createPublicContact,
   updateContact,
   deleteContact,
   searchContacts,

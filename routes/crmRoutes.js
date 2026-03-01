@@ -176,6 +176,45 @@ router.delete('/contacts/:id', protect, adminOnly, crmController.deleteContact);
 
 /**
  * @swagger
+ * /api/crm/public/bookings:
+ *   post:
+ *     summary: Public endpoint to create contact from booking (no auth required)
+ *     tags: [CRM - Public]
+ *     requestBody:
+ *       description: Booking contact data
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - phone
+ *             properties:
+ *               name:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 default: "interested"
+ *               source:
+ *                 type: string
+ *               interestedService:
+ *                 type: string
+ *               notes:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Contact created successfully
+ *       400:
+ *         description: Invalid input
+ */
+// Public endpoint for booking confirmations - no auth required
+router.post('/public/bookings', crmController.createPublicContact);
+
+/**
+ * @swagger
  * /api/crm/interactions:
  *   get:
  *     summary: Get all interactions
