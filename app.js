@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
+const { initializeDatabase } = require('./config/initBehaviorDB');
 const cors = require("cors");
 const path = require("path");
 const userRoutes = require("./routes/userRoutes");
@@ -12,7 +13,6 @@ const fileRoutes = require("./routes/fileRoutes");
 const reviewsRoutes = require('./routes/reviewsRoutes')
 const crmRoutes = require('./routes/crmRoutes');
 const userBehaviorRoutes = require("./routes/userBehaviorRoutes");
-const { initializeDatabase } = require('./config/initBehaviorDB');
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
