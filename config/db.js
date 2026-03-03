@@ -27,15 +27,14 @@ const connectDB = async () => {
     }
 
     console.log('🔄 MongoDB connection start.......');
-    console.log('📝 MONGO_URI:', process.env.MONGO_URI ? 'is set' : 'NOT SET!');
     
-    // Check if MONGO_URI is defined
-    if (!process.env.MONGO_URI) {
-      throw new Error('MONGO_URI environment variable is not defined');
-    }
+    // Use environment variable or fallback to the provided MongoDB URI
+    const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb+srv://devyogam_user:EljeAI40nT55iGnY@cluster0.eyleqqb.mongodb.net/';
+    
+    console.log('📝 MONGO_URI:', mongoURI ? 'is set' : 'NOT SET!');
     
     // Connect with optimized options for serverless
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(mongoURI, {
       serverSelectionTimeoutMS: 15000, // 15 second timeout for serverless
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
