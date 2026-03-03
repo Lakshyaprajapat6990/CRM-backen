@@ -169,5 +169,66 @@ router.delete('/:id', userController.deleteUser);
  */
 router.post("/admin/login", userController.adminLogin);
 
+/**
+ * @swagger
+ * /api/users/seed-admin:
+ *   post:
+ *     summary: Seed/create an admin user (for development only)
+ *     tags: [Users]
+ *     requestBody:
+ *       description: Admin user data
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - phone
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Admin user created
+ *       400:
+ *         description: Invalid input or user already exists
+ */
+router.post("/seed-admin", async (req, res) => {
+  const User = require("../models/User");
+  const { email, password, phone } = req.body;
+  
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    
+    // Create admin user
+    const adminUser = new User({
+      email,
+      password, // In production, this should be hashed!
+      phone,
+      role: "admin",
+      isVerified: true
+    });
+    
+    await adminUser.save();
+    
+    res.status(201).json({ 
+      message: "Admin user created successfully",
+      user: { email: adminUser.email, role: adminUser.role }
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
