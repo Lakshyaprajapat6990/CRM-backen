@@ -109,7 +109,6 @@ router.get("/:id", chadhavaController.getById);
  */
 router.post(
   "/",
-  upload.any(),
   chadhavaController.create
 );
 
@@ -137,7 +136,7 @@ router.post(
  *       404:
  *         description: Not found
  */
-router.put("/:id", upload.any(), chadhavaController.update);
+router.put("/:id", chadhavaController.update);
 
 /**
  * @swagger
