@@ -11,7 +11,13 @@ class ChadhavaController {
       const sanitizedBody = {};
       Object.keys(req.body).forEach((key) => {
         if (req.body[key] !== undefined && req.body[key] !== null) {
-          sanitizedBody[key] = req.body[key];
+          // Convert chadhava to number if it's a string
+          if (key === 'chadhava') {
+            const numValue = Number(req.body[key]);
+            sanitizedBody[key] = isNaN(numValue) ? null : numValue;
+          } else {
+            sanitizedBody[key] = req.body[key];
+          }
         }
       });
       
