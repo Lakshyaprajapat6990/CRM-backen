@@ -36,8 +36,8 @@ const chadhavaSchema = new mongoose.Schema(
     images: {
       type: [
         {
-          url: { type: String, required: true },
-          delete_url: { type: String, required: true },
+          url: { type: String, required: false },
+          delete_url: { type: String, required: false },
         },
       ],
       validate: [(arr) => arr.length <= 5, "{PATH} exceeds 5"],
@@ -45,26 +45,26 @@ const chadhavaSchema = new mongoose.Schema(
     images_hi: {
       type: [
         {
-          url: { type: String, required: true },
-          delete_url: { type: String, required: true },
+          url: { type: String, required: false },
+          delete_url: { type: String, required: false },
         },
       ],
       validate: [(arr) => arr.length <= 5, "{PATH} exceeds 5"],
     },
     benefit: [
       {
-        title: { type: String, required: true },
-        titleHi: { type: String, required: true },
-        description: { type: String, required: true },
-        descriptionHi: { type: String, required: true },
+        title: { type: String, required: false },
+        titleHi: { type: String, required: false },
+        description: { type: String, required: false },
+        descriptionHi: { type: String, required: false },
       },
     ],
     faq: [
       {
-        question: { type: String, required: true },
-        questionHi: { type: String, required: true },
-        answer: { type: String, required: true },
-        answerHi: { type: String, required: true },
+        question: { type: String, required: false },
+        questionHi: { type: String, required: false },
+        answer: { type: String, required: false },
+        answerHi: { type: String, required: false },
       },
     ],
     startDate: Date,
