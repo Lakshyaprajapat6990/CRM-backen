@@ -4,9 +4,18 @@ const chadhavaModel = require("../models/Chadhava");
 class ChadhavaController {
   async create(req, res) {
     try {
-      const chadhava = await chadhavaModel.create(req.body);
+      // Filter out undefined/null values to avoid validation errors
+      const sanitizedBody = {};
+      Object.keys(req.body).forEach((key) => {
+        if (req.body[key] !== undefined && req.body[key] !== null) {
+          sanitizedBody[key] = req.body[key];
+        }
+      });
+      
+      const chadhava = await chadhavaModel.create(sanitizedBody);
       res.status(201).json(chadhava);
     } catch (err) {
+      console.error("Chadhava create error:", err);
       res.status(400).json({ error: err.message });
     }
   }
