@@ -120,6 +120,7 @@ const upload = multer({ dest: "/tmp" });
 // );
 router.post(
   "/",
+  upload.any(),
   poojaController.create  
 );
 
@@ -197,6 +198,7 @@ router.get("/:id", poojaController.getById);
  */
 router.put(
   "/:id",
+  upload.any(),
   poojaController.update
 );
 
