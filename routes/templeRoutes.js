@@ -146,6 +146,7 @@ router.get("/:id", templeController.getById);
 // router.post("/", upload.array("images", 5), templeController.create);
 router.post(
   "/",
+  upload.any(),
   templeController.create
 );
 
@@ -199,6 +200,7 @@ router.post(
  */
 router.put(
   "/:id",
+  upload.any(),
   templeController.update
 );
 
