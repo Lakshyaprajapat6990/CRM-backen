@@ -1,9 +1,13 @@
 const chadhavaService = require("../services/chadhavaService");
 const chadhavaModel = require("../models/Chadhava");
+const { connectDB } = require("../config/db");
 
 class ChadhavaController {
   async create(req, res) {
     try {
+      // Ensure database is connected before operation
+      await connectDB();
+      
       console.log("Chadhava create - req.body:", JSON.stringify(req.body));
       console.log("Chadhava create - Content-Type:", req.headers['content-type']);
       

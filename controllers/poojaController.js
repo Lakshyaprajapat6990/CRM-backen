@@ -1,9 +1,13 @@
 const poojaService = require("../services/poojaService");
-const Pooja = require("../models/Pooja"); 
+const Pooja = require("../models/Pooja");
+const { connectDB } = require("../config/db");
 
 class PoojaController {
   async create(req, res) {
     try {
+      // Ensure database is connected before operation
+      await connectDB();
+      
       const puja = await Pooja.create(req.body)
       res.status(201).json({
         status: true,
