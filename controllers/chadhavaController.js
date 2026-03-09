@@ -4,6 +4,9 @@ const chadhavaModel = require("../models/Chadhava");
 class ChadhavaController {
   async create(req, res) {
     try {
+      console.log("Chadhava create - req.body:", JSON.stringify(req.body));
+      console.log("Chadhava create - Content-Type:", req.headers['content-type']);
+      
       // Filter out undefined/null values to avoid validation errors
       const sanitizedBody = {};
       Object.keys(req.body).forEach((key) => {
@@ -12,11 +15,14 @@ class ChadhavaController {
         }
       });
       
+      console.log("Chadhava sanitizedBody:", JSON.stringify(sanitizedBody));
+      
       const chadhava = await chadhavaModel.create(sanitizedBody);
       res.status(201).json(chadhava);
     } catch (err) {
       console.error("Chadhava create error:", err);
-      res.status(400).json({ error: err.message });
+      console.error("Error details:", err.stack);
+      res.status(400).json({ error: err.message, fullError: err.toString() });
     }
   }
 

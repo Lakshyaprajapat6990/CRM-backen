@@ -22,6 +22,18 @@ const upload = multer({ dest: "/tmp" });
  */
 router.get("/", chadhavaController.getAll);
 
+// Debug: Add raw body parser for testing
+const jsonParser = express.json({ limit: '10mb', verify: (req, res, buf) => {
+  req.rawBody = buf.toString();
+}});
+
+// Test endpoint
+router.post("/test", jsonParser, (req, res) => {
+  console.log("Test endpoint hit - body:", req.body);
+  console.log("Test endpoint hit - rawBody:", req.rawBody);
+  res.json({ success: true, body: req.body, rawBody: req.rawBody });
+});
+
 /**
  * @swagger
  * /api/chadhavas/{id}:
@@ -107,6 +119,12 @@ router.get("/:id", chadhavaController.getById);
  *       201:
  *         description: Chadhava created successfully
  */
+// Debug route to test connectivity
+router.post("/test", (req, res) => {
+  console.log("Test endpoint hit - body:", req.body);
+  res.json({ success: true, body: req.body });
+});
+
 router.post(
   "/",
   chadhavaController.create
